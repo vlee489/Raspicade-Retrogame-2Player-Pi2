@@ -87,7 +87,7 @@ struct {
 	int pin;
 	int key;
 } *io, // In main() this pointer is set to one of the two tables below.
-   ioTFT[] = {
+   ioStandard[] = {
 	// This pin/key table is used if an Adafruit PiTFT display
 	// is detected (e.g. Cupcade or PiGRRL).
 	// Input   Output (from /usr/include/linux/input.h)
@@ -130,7 +130,7 @@ struct {
 	// GPIO options are 'maxed out' with PiTFT + above table.
 	// If additional buttons are desired, will need to disable
 	// serial console and/or use P5 header.  Or use keyboard.
-   ioStandard[] = {
+/*   ioTFT[] = {
 	// This pin/key table is used when the PiTFT isn't found
 	// (using HDMI or composite instead), as with our original
 	// retro gaming guide.
@@ -143,7 +143,7 @@ struct {
 	{   7,     KEY_LEFTALT  },   // B/Bomb/secondary
 	// For credit/start/etc., use USB keyboard or add more buttons.
 	{  -1,     -1           } }; // END OF LIST, DO NOT CHANGE
-
+*/
 // A "Vulcan nerve pinch" (holding down a specific button combination
 // for a few seconds) issues an 'esc' keypress to MAME (which brings up
 // an exit menu or quits the current game).  The button combo is
@@ -307,10 +307,13 @@ int main(int argc, char *argv[]) {
 	signal(SIGINT , signalHandler); // Trap basic signals (exit cleanly)
 	signal(SIGKILL, signalHandler);
 
+//not needed
+/*
 	// Select io[] table for Cupcade (TFT) or 'normal' project.
 	io = (access("/etc/modprobe.d/adafruit.conf", F_OK) ||
 	      access("/dev/fb1", F_OK)) ? ioStandard : ioTFT;
-
+*/
+	io = ioStandard;
 	// If this is a "Revision 1" Pi board (no mounting holes),
 	// remap certain pin numbers in the io[] array for compatibility.
 	// This way the code doesn't need modification for old boards.
